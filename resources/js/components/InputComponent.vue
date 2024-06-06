@@ -3,7 +3,7 @@
         <label for="username" class="font-bold text-slate-500 text-sm">{{
             title
         }}</label>
-        <div class="w-full mt-1">
+        <div :class="[className, 'w-full mt-1']">
             <div class="relative h-10 w-full min-w-[200px]">
                 <input
                     :type="type"
@@ -28,6 +28,7 @@ export default {
         showError: Boolean,
         errorMessage: String,
         onChangeInput: Function,
+        className: String,
     },
 };
 </script>

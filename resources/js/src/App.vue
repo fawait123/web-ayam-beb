@@ -1,12 +1,8 @@
 <template>
-    <div class="w-full flex justify-center items-center bg-slate-100 h-[100vh]">
-        <router-view />
-    </div>
+    <router-view />
 </template>
 
 <script>
-
-export default {
-};
+export default {};
 </script>
 <style lang="scss" scoped></style>
