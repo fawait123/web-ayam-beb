@@ -15,6 +15,18 @@
             <div
                 class="flex-auto bg-white shadow-md bg-clip-border p-[20px] flex justify-evenly flex-wrap h-[91vh] overflow-y-auto"
             >
+                <div
+                    class="p-[15px] bg-white shadow-md bg-clip-border rounded-md h-[120px] flex justify-between gap-3 items-center overflow-y-auto fixed top-[4.5rem] left-[6.8rem] right-[16rem]"
+                >
+                    <ItemCategoryComponent
+                        v-for="category in listCategories"
+                        :key="category.title"
+                        :title="category.title"
+                        :iconName="category.iconName"
+                        :isActive="category.isActive"
+                    />
+                </div>
+                <div class="w-full h-[120px]"></div>
                 <ItemProductComponent
                     v-for="product in listProduct"
                     :key="product"
@@ -65,6 +77,7 @@ import HeaderComponent from "../../components/HeaderComponent.vue";
 import ItemCartComponent from "../../components/ItemCartComponent.vue";
 import ItemMenuComponent from "../../components/ItemMenuComponent.vue";
 import ItemProductComponent from "../../components/ItemProductComponent.vue";
+import ItemCategoryComponent from "../../components/ItemCategoryComponent.vue";
 import { Icon } from "@iconify/vue";
 
 export default {
@@ -74,6 +87,7 @@ export default {
         ItemProductComponent,
         ItemCartComponent,
         Icon,
+        ItemCategoryComponent,
     },
     data() {
         return {
@@ -178,6 +192,33 @@ export default {
                     name: "Es Teh",
                     price: 3000,
                     amount: 1,
+                },
+            ],
+            listCategories: [
+                {
+                    title: "Makanan",
+                    iconName: "mdi:food-turkey",
+                    isActive: true,
+                },
+                {
+                    title: "Minuman",
+                    iconName: "mdi:food-fork-drink",
+                    isActive: false,
+                },
+                {
+                    title: "Paket",
+                    iconName: "mdi:pasta",
+                    isActive: false,
+                },
+                {
+                    title: "Tambahan",
+                    iconName: "mdi:plus",
+                    isActive: false,
+                },
+                {
+                    title: "Lainnya",
+                    iconName: "mdi:blender-outline",
+                    isActive: false,
                 },
             ],
         };
