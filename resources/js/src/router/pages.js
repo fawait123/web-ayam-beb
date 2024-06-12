@@ -1,5 +1,3 @@
-import DashboardView from "./../views/DashboardView.vue";
-
 const routes = [
     {
         path: "/",
@@ -8,8 +6,69 @@ const routes = [
     },
     {
         path: "/dashboard",
-        name: "Dashboard",
-        component: () => import("./../views/DashboardView.vue"),
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "Dashboard",
+                component: () => import("./../views/DashboardView.vue"),
+            },
+        ],
+    },
+    {
+        path: "/user",
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "User",
+                component: () => import("./../views/UserView.vue"),
+            },
+        ],
+    },
+    {
+        path: "/product",
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "Product",
+                component: () => import("./../views/ProductView.vue"),
+            },
+        ],
+    },
+    {
+        path: "/category",
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "Category",
+                component: () => import("./../views/CategoryView.vue"),
+            },
+        ],
+    },
+    {
+        path: "/precence",
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "Precence",
+                component: () => import("./../views/CategoryView.vue"),
+            },
+        ],
+    },
+    {
+        path: "/report",
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "Report",
+                component: () => import("./../views/CategoryView.vue"),
+            },
+        ],
     },
     {
         path: "/profile",
@@ -18,8 +77,14 @@ const routes = [
     },
     {
         path: "/pos",
-        name: "POS",
-        component: () => import("./../views/PosView.vue"),
+        component: () => import("./../layouts/Main.vue"),
+        children: [
+            {
+                path: "",
+                name: "POS",
+                component: () => import("./../views/PosView.vue"),
+            },
+        ],
     },
 ];
 
