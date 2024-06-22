@@ -104,7 +104,7 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router"
 
 const showModalLogout = ref(false)
@@ -129,7 +129,7 @@ const onClickMenu = (name) => {
     router.push({ name })
 }
 
-watch(() => {
+watchEffect(() => {
     currentRouteName.value = route.name
 })
 

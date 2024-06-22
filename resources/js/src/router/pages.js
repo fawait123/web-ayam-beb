@@ -3,6 +3,9 @@ const routes = [
         path: "/",
         name: "Login",
         component: () => import("./../views/LoginView.vue"),
+        meta: {
+            requiredAuth: false,
+        },
     },
     {
         path: "/dashboard",
@@ -14,6 +17,9 @@ const routes = [
                 component: () => import("./../views/DashboardView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/user",
@@ -25,6 +31,9 @@ const routes = [
                 component: () => import("./../views/UserView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/product",
@@ -36,6 +45,9 @@ const routes = [
                 component: () => import("./../views/ProductView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/category",
@@ -47,6 +59,9 @@ const routes = [
                 component: () => import("./../views/CategoryView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/precence",
@@ -58,6 +73,9 @@ const routes = [
                 component: () => import("./../views/CategoryView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/report",
@@ -69,11 +87,17 @@ const routes = [
                 component: () => import("./../views/CategoryView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/profile",
         name: "Profile",
         component: () => import("./../views/ProfileView.vue"),
+        meta: {
+            requiredAuth: true,
+        },
     },
     {
         path: "/pos",
@@ -85,6 +109,9 @@ const routes = [
                 component: () => import("./../views/PosView.vue"),
             },
         ],
+        meta: {
+            requiredAuth: true,
+        },
     },
 ];
 
