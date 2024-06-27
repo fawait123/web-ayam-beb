@@ -12,7 +12,7 @@
                     can change the colors, fonts, breakpoints and everything you need.
                 </p>
             </div>
-            <button
+            <button @click="addUser"
                 class="align-middle text-[18px] select-none font-sans font-bold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
                 type="button">
                 <Icon icon="mdi:user-plus" class="text-[20px]" />
@@ -53,12 +53,17 @@
             </template>
             <template #action="{ row }">
                 <div class="flex gap-3 items-center justify-center">
-                    <button
+                    <button @click="onShow(row.id)"
+                        class="relative h-10 max-h-[40px] w-10 max-w-[40px] flex items-center justify-center select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        type="button">
+                        <Icon icon="mdi:eye" class="text-[16px] text-gray-500" />
+                    </button>
+                    <button @click="onEdit(row.id)"
                         class="relative h-10 max-h-[40px] w-10 max-w-[40px] flex items-center justify-center select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-blue-900 transition-all hover:bg-blue-900/10 active:bg-blue-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="button">
                         <Icon icon="mdi:edit" class="text-[16px] text-blue-500" />
                     </button>
-                    <button
+                    <button @click="onDelete(row.id, row.name)"
                         class="relative h-10 max-h-[40px] w-10 max-w-[40px] flex items-center justify-center select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-red-900 transition-all hover:bg-red-900/10 active:bg-red-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="button">
                         <Icon icon="mdi:trash" class="text-[16px] text-red-500" />
@@ -66,15 +71,19 @@
                 </div>
             </template>
         </DataTable>
+        <Dialog title="Hapus Data ?" :description="dataDelete.description" :isShow="showModal" okText="Lanjutkan"
+            cancelText="Batal" :onCancel="closeModal" :onNext="handleDelete" />
     </div>
 </template>
 
 <script setup>
 import { Icon } from '@iconify/vue';
 import { toast } from '@steveyuowo/vue-hot-toast';
-import doRequest from "./../../utils/doRequest"
+import doRequest from "./../../../utils/doRequest"
 import { onMounted, ref } from "vue"
-import { useLoadingStore } from '../store/loadingStore';
+import { useLoadingStore } from '../../store/loadingStore';
+import { useRouter } from "vue-router"
+const router = useRouter()
 
 const dataTable = ref({
     page: 1,
@@ -105,12 +114,37 @@ const dataTable = ref({
         },
     ]
 })
+
+const showModal = ref(false)
+const dataDelete = ref({
+    id: null,
+    description: null
+})
 const loadingStore = useLoadingStore()
 
 onMounted(() => {
     fetchData()
 });
 
+const closeModal = () => {
+    dataDelete.value.id = null;
+    dataDelete.value.description = null
+    showModal.value = false;
+}
+
+const onDelete = (id, name) => {
+    dataDelete.value.id = id;
+    dataDelete.value.description = "Apakah kamu yakin ingin menghapus data " + name + " ?"
+    showModal.value = true
+}
+
+const handleDelete = () => {
+    console.log("handle delete")
+}
+
+const addUser = () => {
+    router.push({ name: "UserCreate" })
+}
 const onSearch = (value) => {
     dataTable.value.search = value.target.value
     fetchData()
@@ -126,6 +160,14 @@ const onPrev = () => {
 const onNext = () => {
     dataTable.value.page = dataTable.value.page + 1
     fetchData()
+}
+
+const onEdit = (id) => {
+    router.push({ name: "UserCreate", query: { edit: true, id } })
+}
+
+const onShow = (id) => {
+    router.push({ name: "UserCreate", query: { show: true, id } })
 }
 const fetchData = async () => {
     loadingStore.setLoading(true)

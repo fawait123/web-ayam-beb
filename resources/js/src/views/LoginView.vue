@@ -61,7 +61,7 @@ const onClickButton = async () => {
                 type: "success"
             })
 
-            router.push({ name: "Dashboard" })
+            window.location.href = "/dashboard"
         }
 
 

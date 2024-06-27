@@ -34,6 +34,11 @@ class UserService extends PaginationHelper
                 });
             }
 
+            if ($request->filled('filter')) {
+
+                $result->where($request->filter['key'], $request->filter['value']);
+            }
+
             $result = $result->paginate($limit, '*', 'page', $page);
 
             parent::__construct($result);

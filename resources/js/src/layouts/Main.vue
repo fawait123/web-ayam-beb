@@ -10,7 +10,7 @@
                         <li v-for="menu in menuList" :key="menu.title" @mouseenter="onMouseEnter(menu.title)"
                             :title="menu.title" @click="onClickMenu(menu.routeName)"
                             @mouseleave="onMouseLeave(menu.title)"
-                            :class="[currentRouteName?.toLowerCase() == menu.routeName?.toLowerCase() ? 'bg-red-500 text-slate-50' : 'hover:bg-red-500 hover:text-slate-50 transition-all text-slate-600', 'relative list-none  rounded-md p-2  w-full flex justify-start items-center cursor-pointer my-4']">
+                            :class="[currentRouteName?.toLowerCase().includes(menu.routeName?.toLowerCase()) ? 'bg-red-500 text-slate-50' : 'hover:bg-red-500 hover:text-slate-50 transition-all text-slate-600', 'relative list-none  rounded-md p-2  w-full flex justify-start items-center cursor-pointer my-4']">
                             <Icon :icon="menu.icon" class="text-[24px]" />
                             <span class="text-[14px] font-normal ml-2" v-show="!isSidebarMini">{{ menu.title }}</span>
                         </li>
@@ -40,8 +40,14 @@
                     <div class="flex items-center justify-start">
                         <Icon icon="mdi:home" class="text-[24px] text-red-500" />
                         <h1 class="text-red-500 font-medium ml-2">Dashboard</h1>
-                        <Icon icon="mdi:arrow-right" class="mx-2" />
-                        <h1 class="text-slate-500 font-medium">Index</h1>
+                        <div class="flex justify-center items-center" v-for="(row, index) in breadCrum" :key="row">
+                            <Icon icon="mdi:arrow-right" class="mx-2" />
+                            <h1
+                                :class="[(index + 1) == breadCrum.length ? 'text-slate-500 ' : 'text-red-500', 'font-medium capitalize']">
+                                {{ row
+                                }}
+                            </h1>
+                        </div>
                     </div>
                     <div class="mr-5">
                         <div class="w-[40px] h-[40px] rounded-full bg-red-500 overflow-hidden border border-red-500 cursor-pointer relative"
@@ -104,8 +110,9 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
-import { ref, watch, watchEffect } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router"
+import Cookies from "js-cookie";
 
 const showModalLogout = ref(false)
 
@@ -118,12 +125,19 @@ const closeModal = () => {
 }
 
 const onLogout = () => {
-    console.log("oke")
+    Cookies.remove("token")
+    Cookies.remove("user")
+    router.push({ name: "Login" })
 }
 
 const route = useRoute()
 const router = useRouter()
 const currentRouteName = ref("")
+const breadCrum = ref("")
+
+watchEffect(() => {
+    breadCrum.value = route.path.split("/").filter((el) => el != "")
+})
 
 const onClickMenu = (name) => {
     router.push({ name })
